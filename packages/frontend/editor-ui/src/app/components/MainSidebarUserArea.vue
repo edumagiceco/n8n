@@ -9,8 +9,8 @@ import {
 	N8nPopoverReka,
 	N8nText,
 } from '@n8n/design-system';
-import { useI18n } from '@n8n/i18n';
-import { ref } from 'vue';
+import { useI18n, i18nInstance } from '@n8n/i18n';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 defineProps<{ fullyExpanded: boolean; isCollapsed: boolean }>();
@@ -19,11 +19,30 @@ const i18n = useI18n();
 const router = useRouter();
 const usersStore = useUsersStore();
 
+const currentLocale = computed(() => i18nInstance.global.locale.value);
+
+const languageItems = ref<IMenuItem[]>([
+	{
+		id: 'en',
+		label: 'English',
+	},
+	{
+		id: 'ko',
+		label: '한국어',
+	},
+]);
+
 const userMenuItems = ref<IMenuItem[]>([
 	{
 		id: 'settings',
 		icon: 'settings',
 		label: i18n.baseText('settings'),
+	},
+	{
+		id: 'language',
+		icon: 'globe',
+		label: 'Language / 언어',
+		children: languageItems.value,
 	},
 	{
 		id: 'logout',
@@ -36,6 +55,11 @@ const onLogout = () => {
 	void router.push({ name: VIEWS.SIGNOUT });
 };
 
+const changeLanguage = (locale: string) => {
+	i18nInstance.global.locale.value = locale as 'en' | 'ko';
+	localStorage.setItem('n8n-language', locale);
+};
+
 const onUserActionToggle = (action: string) => {
 	switch (action) {
 		case 'logout':
@@ -43,6 +67,10 @@ const onUserActionToggle = (action: string) => {
 			break;
 		case 'settings':
 			void router.push({ name: VIEWS.SETTINGS });
+			break;
+		case 'en':
+		case 'ko':
+			changeLanguage(action);
 			break;
 		default:
 			break;
