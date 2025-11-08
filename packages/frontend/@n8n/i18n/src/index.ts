@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { createI18n } from 'vue-i18n';
 
 import englishBaseText from './locales/en.json';
+import koreanBaseText from './locales/ko.json';
 import type { BaseTextKey, LocaleMessages, INodeTranslationHeaders } from './types';
 import {
 	deriveMiddleKey,
@@ -18,7 +19,10 @@ export const i18nInstance = createI18n({
 	legacy: false,
 	locale: 'en',
 	fallbackLocale: 'en',
-	messages: { en: englishBaseText },
+	messages: {
+		en: englishBaseText,
+		ko: koreanBaseText
+	},
 	warnHtmlMessage: false,
 });
 
