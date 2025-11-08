@@ -80,6 +80,13 @@ useTelemetryContext({ ndv_source: computed(() => ndvStore.lastSetActiveNodeSourc
 onMounted(async () => {
 	setAppZIndexes();
 	logHiringBanner();
+
+	// Load saved language preference
+	const savedLanguage = localStorage.getItem('n8n-language');
+	if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'ko')) {
+		setLanguage(savedLanguage);
+	}
+
 	loading.value = false;
 	window.addEventListener('resize', updateGridWidth);
 	await updateGridWidth();
