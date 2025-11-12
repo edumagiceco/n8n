@@ -133,10 +133,7 @@ const mainMenuItems = computed<IMenuItem[]>(() => [
 		icon: 'package-open',
 		label: i18n.baseText('generic.templates'),
 		position: 'bottom',
-		available:
-			settingsStore.isTemplatesEnabled &&
-			calloutHelpers.isPreBuiltAgentsCalloutVisible.value &&
-			!isTemplatesExperimentEnabled.value,
+		available: false,
 		route: { to: { name: VIEWS.PRE_BUILT_AGENT_TEMPLATES } },
 	},
 	{
@@ -145,7 +142,7 @@ const mainMenuItems = computed<IMenuItem[]>(() => [
 		icon: 'package-open',
 		label: i18n.baseText('generic.templates'),
 		position: 'bottom',
-		available: settingsStore.isTemplatesEnabled && isTemplatesExperimentEnabled.value,
+		available: false,
 	},
 	{
 		// Link to in-app templates, available if custom templates are enabled and experiment is disabled
@@ -153,11 +150,7 @@ const mainMenuItems = computed<IMenuItem[]>(() => [
 		icon: 'package-open',
 		label: i18n.baseText('generic.templates'),
 		position: 'bottom',
-		available:
-			settingsStore.isTemplatesEnabled &&
-			!calloutHelpers.isPreBuiltAgentsCalloutVisible.value &&
-			templatesStore.hasCustomTemplatesHost &&
-			!isTemplatesExperimentEnabled.value,
+		available: false,
 		route: { to: { name: VIEWS.TEMPLATES } },
 	},
 	{
@@ -166,11 +159,7 @@ const mainMenuItems = computed<IMenuItem[]>(() => [
 		icon: 'package-open',
 		label: i18n.baseText('generic.templates'),
 		position: 'bottom',
-		available:
-			settingsStore.isTemplatesEnabled &&
-			!calloutHelpers.isPreBuiltAgentsCalloutVisible.value &&
-			!templatesStore.hasCustomTemplatesHost &&
-			!isTemplatesExperimentEnabled.value,
+		available: false,
 		link: {
 			href: templatesStore.websiteTemplateRepositoryURL,
 			target: '_blank',
@@ -182,15 +171,14 @@ const mainMenuItems = computed<IMenuItem[]>(() => [
 		label: 'Insights',
 		position: 'bottom',
 		route: { to: { name: VIEWS.INSIGHTS } },
-		available:
-			settingsStore.isModuleActive('insights') &&
-			hasPermission(['rbac'], { rbac: { scope: 'insights:list' } }),
+		available: false,
 	},
 	{
 		id: 'help',
 		icon: 'circle-help',
 		label: i18n.baseText('mainSidebar.help'),
 		position: 'bottom',
+		available: false,
 		children: [
 			{
 				id: 'quickstart',
@@ -251,7 +239,7 @@ const mainMenuItems = computed<IMenuItem[]>(() => [
 		notification: showWhatsNewNotification.value,
 		label: i18n.baseText('mainSidebar.whatsNew'),
 		position: 'bottom',
-		available: versionsStore.hasVersionUpdates || versionsStore.whatsNewArticles.length > 0,
+		available: false,
 		children: [
 			...versionsStore.whatsNewArticles.map(
 				(article) =>
