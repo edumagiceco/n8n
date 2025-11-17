@@ -154,7 +154,7 @@ watch(descriptionValue, (newValue) => {
 });
 </script>
 <template>
-	<N8nTooltip :disabled="popoverOpen" :content="i18n.baseText('workflow.description.tooltip')">
+	<N8nTooltip :disabled="true" :content="i18n.baseText('workflow.description.tooltip')">
 		<div :class="$style['description-popover-wrapper']" data-test-id="workflow-description-popover">
 			<N8nPopoverReka
 				id="workflow-description-popover"
