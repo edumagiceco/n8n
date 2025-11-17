@@ -49,8 +49,6 @@ const githubButtonHidden = useLocalStorage(LOCAL_STORAGE_HIDE_GITHUB_STAR_BUTTON
 // This is used to determine which tab to show when the route changes
 // TODO: It might be easier to manage this in the router config, by passing meta information to the routes
 // This would allow us to specify it just once on the root route, and then have the tabs be determined for children
-const evaluationRoutes: VIEWS[] = [VIEWS.EVALUATION_EDIT, VIEWS.EVALUATION_RUNS_DETAIL];
-
 const workflowRoutes: VIEWS[] = [VIEWS.WORKFLOW, VIEWS.NEW_WORKFLOW, VIEWS.EXECUTION_DEBUG];
 
 const executionRoutes: VIEWS[] = [
@@ -62,7 +60,6 @@ const tabBarItems = computed(() => {
 	return [
 		{ value: MAIN_HEADER_TABS.WORKFLOW, label: locale.baseText('generic.editor') },
 		{ value: MAIN_HEADER_TABS.EXECUTIONS, label: locale.baseText('generic.executions') },
-		{ value: MAIN_HEADER_TABS.EVALUATION, label: locale.baseText('generic.tests') },
 	];
 });
 
@@ -120,15 +117,13 @@ onMounted(async () => {
 
 function isViewRoute(name: unknown): name is VIEWS {
 	return (
-		typeof name === 'string' &&
-		[evaluationRoutes, workflowRoutes, executionRoutes].flat().includes(name as VIEWS)
+		typeof name === 'string' && [workflowRoutes, executionRoutes].flat().includes(name as VIEWS)
 	);
 }
 
 function syncTabsWithRoute(to: RouteLocation, from?: RouteLocation): void {
 	// Map route types to their corresponding tab in the header
 	const routeTabMapping = [
-		{ routes: evaluationRoutes, tab: MAIN_HEADER_TABS.EVALUATION },
 		{ routes: executionRoutes, tab: MAIN_HEADER_TABS.EXECUTIONS },
 		{ routes: workflowRoutes, tab: MAIN_HEADER_TABS.WORKFLOW },
 	];
@@ -165,10 +160,6 @@ function onTabSelected(tab: MAIN_HEADER_TABS, event: MouseEvent) {
 
 		case MAIN_HEADER_TABS.EXECUTIONS:
 			void navigateToExecutionsView(openInNewTab);
-			break;
-
-		case MAIN_HEADER_TABS.EVALUATION:
-			void navigateToEvaluationsView(openInNewTab);
 			break;
 
 		default:
@@ -212,25 +203,6 @@ async function navigateToExecutionsView(openInNewTab: boolean) {
 				name: VIEWS.EXECUTION_HOME,
 				params: { name: routeWorkflowId },
 			};
-
-	if (openInNewTab) {
-		const { href } = router.resolve(routeToNavigateTo);
-		window.open(href, '_blank');
-	} else if (route.name !== routeToNavigateTo.name) {
-		dirtyState.value = uiStore.stateIsDirty;
-		workflowToReturnTo.value = workflowId.value;
-		activeHeaderTab.value = MAIN_HEADER_TABS.EXECUTIONS;
-		await router.push(routeToNavigateTo);
-	}
-}
-
-async function navigateToEvaluationsView(openInNewTab: boolean) {
-	const routeWorkflowId =
-		workflowId.value === PLACEHOLDER_EMPTY_WORKFLOW_ID ? 'new' : workflowId.value;
-	const routeToNavigateTo: RouteLocationRaw = {
-		name: VIEWS.EVALUATION_EDIT,
-		params: { name: routeWorkflowId },
-	};
 
 	if (openInNewTab) {
 		const { href } = router.resolve(routeToNavigateTo);
