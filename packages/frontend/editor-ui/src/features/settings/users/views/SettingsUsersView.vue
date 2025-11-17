@@ -37,8 +37,6 @@ import {
 	N8nHeading,
 	N8nIcon,
 	N8nInput,
-	N8nLink,
-	N8nNotice,
 	N8nText,
 	N8nTooltip,
 } from '@n8n/design-system';
@@ -273,9 +271,6 @@ async function onDisallowSSOManualLogin(userId: string) {
 }
 function goToUpgrade() {
 	void pageRedirectionHelper.goToUpgrade('settings-users', 'upgrade-users');
-}
-function goToUpgradeAdvancedPermissions() {
-	void pageRedirectionHelper.goToUpgrade('settings-users', 'upgrade-advanced-permissions');
 }
 
 const onUpdateRole = async (payload: { userId: string; role: Role }) => {
