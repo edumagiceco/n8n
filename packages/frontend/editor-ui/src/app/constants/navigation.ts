@@ -71,4 +71,5 @@ export const enum MAIN_HEADER_TABS {
 	WORKFLOW = 'workflow',
 	EXECUTIONS = 'executions',
 	SETTINGS = 'settings',
+	EVALUATION = 'evaluation',
 }
