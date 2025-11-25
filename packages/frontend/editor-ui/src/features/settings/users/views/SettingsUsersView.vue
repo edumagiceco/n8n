@@ -36,8 +36,6 @@ import {
 	N8nHeading,
 	N8nIcon,
 	N8nInput,
-	N8nLink,
-	N8nNotice,
 	N8nText,
 	N8nTooltip,
 } from '@n8n/design-system';
@@ -266,9 +264,6 @@ async function onDisallowSSOManualLogin(userId: string) {
 function goToUpgrade() {
 	void pageRedirectionHelper.goToUpgrade('settings-users', 'upgrade-users');
 }
-function goToUpgradeAdvancedPermissions() {
-	void pageRedirectionHelper.goToUpgrade('settings-users', 'upgrade-advanced-permissions');
-}
 
 const onUpdateRole = async (payload: { userId: string; role: Role }) => {
 	const user = usersStore.usersList.state.items.find((u) => u.id === payload.userId);
@@ -398,19 +393,6 @@ async function onUpdateMfaEnforced(value: string | number | boolean) {
 				@click:button="goToUpgrade"
 			/>
 		</div>
-		<N8nNotice v-if="!isAdvancedPermissionsEnabled">
-			<I18nT keypath="settings.users.advancedPermissions.warning" scope="global">
-				<template #link>
-					<N8nLink
-						data-test-id="upgrade-permissions-link"
-						size="small"
-						@click="goToUpgradeAdvancedPermissions"
-					>
-						{{ i18n.baseText('generic.upgrade') }}
-					</N8nLink>
-				</template>
-			</I18nT>
-		</N8nNotice>
 		<div :class="$style.settingsContainer">
 			<div :class="$style.settingsContainerInfo">
 				<N8nText :bold="true"

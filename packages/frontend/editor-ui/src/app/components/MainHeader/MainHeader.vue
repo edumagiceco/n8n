@@ -4,12 +4,10 @@ import WorkflowDetails from '@/app/components/MainHeader/WorkflowDetails.vue';
 import { useI18n } from '@n8n/i18n';
 import { usePushConnection } from '@/app/composables/usePushConnection';
 import {
-	LOCAL_STORAGE_HIDE_GITHUB_STAR_BUTTON,
 	MAIN_HEADER_TABS,
 	PLACEHOLDER_EMPTY_WORKFLOW_ID,
 	STICKY_NODE_TYPE,
 	VIEWS,
-	N8N_MAIN_GITHUB_REPO_URL,
 } from '@/app/constants';
 import { useExecutionsStore } from '@/features/execution/executions/executions.store';
 import { useNDVStore } from '@/features/ndv/shared/ndv.store';
@@ -21,11 +19,7 @@ import { computed, onBeforeMount, onBeforeUnmount, onMounted, ref, watch } from 
 import type { RouteLocation, RouteLocationRaw } from 'vue-router';
 import { useRoute, useRouter } from 'vue-router';
 
-import { useLocalStorage } from '@vueuse/core';
-import GithubButton from 'vue-github-button';
 import type { FolderShortInfo } from '@/features/core/folders/folders.types';
-
-import { N8nIcon } from '@n8n/design-system';
 import { useToast } from '@/app/composables/useToast';
 const router = useRouter();
 const route = useRoute();
@@ -43,7 +37,6 @@ const activeHeaderTab = ref(MAIN_HEADER_TABS.WORKFLOW);
 const workflowToReturnTo = ref('');
 const executionToReturnTo = ref('');
 const dirtyState = ref(false);
-const githubButtonHidden = useLocalStorage(LOCAL_STORAGE_HIDE_GITHUB_STAR_BUTTON, false);
 
 // Track the routes that are used for the tabs
 // This is used to determine which tab to show when the route changes
@@ -82,13 +75,6 @@ const isEnterprise = computed(
 const isTelemetryEnabled = computed((): boolean => {
 	return settingsStore.isTelemetryEnabled;
 });
-const showGitHubButton = computed(
-	() =>
-		!isEnterprise.value &&
-		!settingsStore.settings.inE2ETests &&
-		!githubButtonHidden.value &&
-		isTelemetryEnabled.value,
-);
 
 const parentFolderForBreadcrumbs = computed<FolderShortInfo | undefined>(() => {
 	if (!workflow.value.parentFolder) {
@@ -238,13 +224,9 @@ async function navigateToEvaluationsView(openInNewTab: boolean) {
 	} else if (route.name !== routeToNavigateTo.name) {
 		dirtyState.value = uiStore.stateIsDirty;
 		workflowToReturnTo.value = workflowId.value;
-		activeHeaderTab.value = MAIN_HEADER_TABS.EXECUTIONS;
+		activeHeaderTab.value = MAIN_HEADER_TABS.EVALUATION;
 		await router.push(routeToNavigateTo);
 	}
-}
-
-function hideGithubButton() {
-	githubButtonHidden.value = true;
 }
 
 async function onWorkflowDeactivated() {
@@ -285,25 +267,6 @@ async function onWorkflowDeactivated() {
 					:description="workflow.description"
 					@workflow:deactivated="onWorkflowDeactivated"
 				/>
-				<div v-if="showGitHubButton" :class="[$style['github-button'], 'hidden-sm-and-down']">
-					<div :class="$style['github-button-container']">
-						<GithubButton
-							:href="N8N_MAIN_GITHUB_REPO_URL"
-							:data-color-scheme="uiStore.appliedTheme"
-							data-size="large"
-							data-show-count="true"
-							:aria-label="locale.baseText('editor.mainHeader.githubButton.label')"
-						>
-							{{ locale.baseText('generic.star') }}
-						</GithubButton>
-						<N8nIcon
-							:class="$style['close-github-button']"
-							icon="circle-x"
-							size="medium"
-							@click="hideGithubButton"
-						/>
-					</div>
-				</div>
 			</div>
 			<TabBar
 				v-if="onWorkflowPage"
@@ -340,56 +303,5 @@ async function onWorkflowDeactivated() {
 	font-weight: var(--font-weight--regular);
 	overflow-x: auto;
 	overflow-y: hidden;
-}
-
-.github-button {
-	display: flex;
-	align-items: center;
-	align-self: stretch;
-	padding: var(--spacing--5xs) var(--spacing--md);
-	background-color: var(--color--background--light-3);
-	border-left: var(--border-width) var(--border-style) var(--color--foreground);
-}
-
-.close-github-button {
-	display: none;
-	position: absolute;
-	right: 0;
-	top: 0;
-	transform: translate(50%, -46%);
-	color: var(--color--foreground--shade-2);
-	background-color: var(--color--background--light-3);
-	border-radius: 100%;
-	cursor: pointer;
-
-	&:hover {
-		color: var(--p--color--primary-420);
-	}
-}
-.github-button-container {
-	position: relative;
-}
-
-.github-button:hover .close-github-button {
-	display: block;
-}
-
-@media (max-width: 1390px) {
-	.github-button {
-		padding: var(--spacing--5xs) var(--spacing--xs);
-	}
-}
-
-@media (max-width: 1340px) {
-	.github-button {
-		border-left: 0;
-		padding-left: 0;
-	}
-}
-
-@media (max-width: 1290px) {
-	.github-button {
-		display: none;
-	}
 }
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { ROLE, type Role } from '@n8n/api-types';
-import { useI18n } from '@n8n/i18n';
+import { useI18n, setLanguage } from '@n8n/i18n';
 import { useToast } from '@/app/composables/useToast';
 import { useDocumentTitle } from '@/app/composables/useDocumentTitle';
 import type { IFormInputs, ThemeOption } from '@/Interface';
@@ -66,6 +66,7 @@ const formInputs = ref<null | IFormInputs>(null);
 const formBus = createFormEventBus();
 const readyToSubmit = ref(false);
 const currentSelectedTheme = ref(useUIStore().theme);
+const currentSelectedLanguage = ref(i18n.locale);
 const themeOptions = ref<Array<{ name: ThemeOption; label: BaseTextKey }>>([
 	{
 		name: 'system',
@@ -78,6 +79,16 @@ const themeOptions = ref<Array<{ name: ThemeOption; label: BaseTextKey }>>([
 	{
 		name: 'dark',
 		label: 'settings.personal.theme.dark',
+	},
+]);
+const languageOptions = ref<Array<{ value: string; label: string }>>([
+	{
+		value: 'en',
+		label: 'English',
+	},
+	{
+		value: 'ko',
+		label: '한국어',
 	},
 ]);
 
@@ -115,7 +126,9 @@ const isMfaFeatureEnabled = computed((): boolean => {
 });
 
 const hasAnyPersonalisationChanges = computed((): boolean => {
-	return currentSelectedTheme.value !== uiStore.theme;
+	return (
+		currentSelectedTheme.value !== uiStore.theme || currentSelectedLanguage.value !== i18n.locale
+	);
 });
 
 const hasAnyChanges = computed(() => {
@@ -275,6 +288,12 @@ async function updatePersonalisationSettings() {
 	}
 
 	uiStore.setTheme(currentSelectedTheme.value);
+
+	if (currentSelectedLanguage.value !== i18n.locale) {
+		setLanguage(currentSelectedLanguage.value);
+		// Save language preference to localStorage
+		localStorage.setItem('n8n-language', currentSelectedLanguage.value);
+	}
 }
 
 function onSaveClick() {
@@ -429,6 +448,25 @@ onBeforeUnmount(() => {
 					i18n.baseText('settings.personal.personalisation')
 				}}</N8nHeading>
 			</div>
+			<div class="mb-s">
+				<N8nInputLabel :label="i18n.baseText('settings.personal.language')">
+					<N8nSelect
+						v-model="currentSelectedLanguage"
+						:class="$style.languageSelect"
+						data-test-id="language-select"
+						size="small"
+						filterable
+					>
+						<N8nOption
+							v-for="item in languageOptions"
+							:key="item.value"
+							:label="item.label"
+							:value="item.value"
+						>
+						</N8nOption>
+					</N8nSelect>
+				</N8nInputLabel>
+			</div>
 			<div>
 				<N8nInputLabel :label="i18n.baseText('settings.personal.theme')">
 					<N8nSelect
@@ -523,7 +561,8 @@ onBeforeUnmount(() => {
 	color: var(--color--text--tint-1);
 }
 
-.themeSelect {
+.themeSelect,
+.languageSelect {
 	max-width: 50%;
 }
 </style>
