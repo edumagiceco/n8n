@@ -1,4 +1,4 @@
-import './polyfills';
+import './app/polyfills';
 
 import { createApp } from 'vue';
 
