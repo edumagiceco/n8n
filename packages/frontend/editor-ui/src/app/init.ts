@@ -23,7 +23,7 @@ import { useSSOStore } from '@/features/settings/sso/sso.store';
 import { useUsersStore } from '@/features/settings/users/users.store';
 import { useVersionsStore } from '@/app/stores/versions.store';
 import { useBannersStore } from '@/features/shared/banners/banners.store';
-import { useI18n } from '@n8n/i18n';
+import { useI18n, i18nInstance } from '@n8n/i18n';
 import { useRootStore } from '@n8n/stores/useRootStore';
 import { h } from 'vue';
 import { useRolesStore } from '@/app/stores/roles.store';
@@ -36,6 +36,16 @@ export const state = {
 let authenticatedFeaturesInitialized = false;
 
 /**
+ * Initialize language from localStorage
+ */
+function initializeLanguage() {
+	const savedLanguage = localStorage.getItem('n8n-language');
+	if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'ko')) {
+		i18nInstance.global.locale.value = savedLanguage;
+	}
+}
+
+/**
  * Initializes the core application stores and hooks
  * This is called once, when the first route is loaded.
  */
@@ -43,6 +53,9 @@ export async function initializeCore() {
 	if (state.initialized) {
 		return;
 	}
+
+	// Initialize language before anything else
+	initializeLanguage();
 
 	const settingsStore = useSettingsStore();
 	const versionsStore = useVersionsStore();

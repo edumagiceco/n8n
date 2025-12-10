@@ -30,7 +30,7 @@ const sidebarMenuItems = computed<IMenuItem[]>(() => {
 			icon: 'chart-column-decreasing',
 			label: i18n.baseText('settings.usageAndPlan.title'),
 			position: 'top',
-			available: canUserAccessRouteByName(VIEWS.USAGE),
+			available: false,
 			route: { to: { name: VIEWS.USAGE } },
 		},
 		{
@@ -70,7 +70,7 @@ const sidebarMenuItems = computed<IMenuItem[]>(() => {
 			icon: 'vault',
 			label: i18n.baseText('settings.externalSecrets.title'),
 			position: 'top',
-			available: canUserAccessRouteByName(VIEWS.EXTERNAL_SECRETS_SETTINGS),
+			available: false,
 			route: { to: { name: VIEWS.EXTERNAL_SECRETS_SETTINGS } },
 		},
 		{
@@ -78,7 +78,7 @@ const sidebarMenuItems = computed<IMenuItem[]>(() => {
 			icon: 'git-branch',
 			label: i18n.baseText('settings.sourceControl.title'),
 			position: 'top',
-			available: canUserAccessRouteByName(VIEWS.SOURCE_CONTROL),
+			available: false,
 			route: { to: { name: VIEWS.SOURCE_CONTROL } },
 		},
 		{
@@ -86,7 +86,7 @@ const sidebarMenuItems = computed<IMenuItem[]>(() => {
 			icon: 'user-lock',
 			label: i18n.baseText('settings.sso'),
 			position: 'top',
-			available: canUserAccessRouteByName(VIEWS.SSO_SETTINGS),
+			available: false,
 			route: { to: { name: VIEWS.SSO_SETTINGS } },
 		},
 		{
@@ -94,7 +94,7 @@ const sidebarMenuItems = computed<IMenuItem[]>(() => {
 			icon: 'network',
 			label: i18n.baseText('settings.ldap'),
 			position: 'top',
-			available: canUserAccessRouteByName(VIEWS.LDAP_SETTINGS),
+			available: false,
 			route: { to: { name: VIEWS.LDAP_SETTINGS } },
 		},
 		{
@@ -114,7 +114,7 @@ const sidebarMenuItems = computed<IMenuItem[]>(() => {
 		icon: 'log-in',
 		label: i18n.baseText('settings.log-streaming'),
 		position: 'top',
-		available: canUserAccessRouteByName(VIEWS.LOG_STREAMING_SETTINGS),
+		available: false,
 		route: { to: { name: VIEWS.LOG_STREAMING_SETTINGS } },
 	});
 
