@@ -1,3 +1,47 @@
+## [1.123.4](https://github.com/n8n-io/n8n/compare/n8n@1.123.3...n8n@1.123.4) (2025-12-08)
+
+
+### Bug Fixes
+
+* **core:** Allowlist `HOME` env var in JS runner config ([#22839](https://github.com/n8n-io/n8n/issues/22839)) ([79ee577](https://github.com/n8n-io/n8n/commit/79ee577659ee05a466dceafa6414e3b5a01b322e))
+
+
+
+## [1.123.3](https://github.com/n8n-io/n8n/compare/n8n@1.123.2...n8n@1.123.3) (2025-12-05)
+
+
+### Bug Fixes
+
+* Add `HOME` env var to distroless runners image ([#22796](https://github.com/n8n-io/n8n/issues/22796)) ([0bcc116](https://github.com/n8n-io/n8n/commit/0bcc11680258923c11e6801e1832f8276408ac86))
+* **core:** Hide migration rule issues not relevant to cloud ([#22749](https://github.com/n8n-io/n8n/issues/22749)) ([9ac4fd0](https://github.com/n8n-io/n8n/commit/9ac4fd019ec9852c48321f1559dabc1bc2c665d5))
+
+
+
+## [1.123.2](https://github.com/n8n-io/n8n/compare/n8n@1.123.1...n8n@1.123.2) (2025-12-04)
+
+
+### Bug Fixes
+
+* **core:** Do not prevent credential save if property has default value ([#22720](https://github.com/n8n-io/n8n/issues/22720)) ([ed1565d](https://github.com/n8n-io/n8n/commit/ed1565d7a217cb50677e1966457900a4aca5e4d4))
+* **core:** Fix html header check ([#22713](https://github.com/n8n-io/n8n/issues/22713)) ([ced34c0](https://github.com/n8n-io/n8n/commit/ced34c0f93ab4c759a56065965986094d8ef7323))
+
+
+### Features
+
+* **core:** Add toolCode nodes to the pyodide check for v2 migration ([#22659](https://github.com/n8n-io/n8n/issues/22659)) ([57d6015](https://github.com/n8n-io/n8n/commit/57d6015f2ea0442c24e0449105325b7e36f066df))
+
+
+
+## [1.123.1](https://github.com/n8n-io/n8n/compare/n8n@1.123.0...n8n@1.123.1) (2025-12-03)
+
+
+### Bug Fixes
+
+* **core:** Prevent execution data from being overwritten on manual workflow resume ([#22665](https://github.com/n8n-io/n8n/issues/22665)) ([e1ab229](https://github.com/n8n-io/n8n/commit/e1ab2295efef976b7ed91debd95a5c8f77d339eb))
+* **MCP Client Node:** Make "Use Dynamic Client Registration" toggle not required ([#22645](https://github.com/n8n-io/n8n/issues/22645)) ([a60eba3](https://github.com/n8n-io/n8n/commit/a60eba35ebc0b328961ddb713f260dc9d01ad334))
+
+
+
 # [1.123.0](https://github.com/n8n-io/n8n/compare/n8n@1.122.0...n8n@1.123.0) (2025-12-01)
 
 
