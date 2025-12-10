@@ -753,6 +753,9 @@ importers:
       n8n-workflow:
         specifier: workspace:*
         version: link:../../workflow
+      zod:
+        specifier: 3.25.67
+        version: 3.25.67
     devDependencies:
       '@n8n/typescript-config':
         specifier: workspace:*
